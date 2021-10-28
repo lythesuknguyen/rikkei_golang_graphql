@@ -1,0 +1,21 @@
+type Query {
+  members(input: Params) : [Member]
+  skills(input: Params) : [Skill]
+}
+
+input Params {
+  ids: [ID!]
+}
+
+type Member {
+  id: ID!
+  name: String
+  skill: [Skill]
+}
+
+type Skill {
+  id: ID!
+  category: String
+  name: String
+  exp: Int
+}
