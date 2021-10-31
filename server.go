@@ -7,13 +7,25 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/go-pg/pg/v10"
 	"github.com/lythesuknguyen/rikkei/graph"
 	"github.com/lythesuknguyen/rikkei/graph/generated"
+	"github.com/lythesuknguyen/rikkei/postgres"
 )
 
-const defaultPort = "8080"
+const defaultPort = "8000"
 
 func main() {
+	DB := postgres.New(&pg.Options{
+		User:     "root",
+		Password: "123456",
+		Database: "rikkei",
+	})
+
+	defer DB.Close()
+
+	DB.AddQueryHook(postgres.DBLogger{})
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
